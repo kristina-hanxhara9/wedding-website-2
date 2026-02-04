@@ -14,6 +14,12 @@ document.addEventListener('DOMContentLoaded', () => {
     Animations.init();
     Parallax.init();
     Forms.init();
+
+    // Slow down hero video playback
+    const heroVideo = document.getElementById('heroVideo');
+    if (heroVideo) {
+        heroVideo.playbackRate = 0.5;
+    }
 });
 
 /* ============================================
