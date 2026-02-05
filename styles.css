@@ -1664,11 +1664,11 @@ img {
 }
 
 .music-float .music-icon-on {
-    opacity: 0;
+    opacity: 1;
 }
 
 .music-float .music-icon-off {
-    opacity: 1;
+    opacity: 0;
 }
 
 .music-float.playing .music-icon-on {
@@ -2097,6 +2097,16 @@ img {
 }
 
 @media (max-width: 768px) {
+    /* Single video on mobile */
+    .hero-vid:nth-child(2),
+    .hero-vid:nth-child(3) {
+        display: none;
+    }
+
+    .hero-vid:first-child {
+        width: 100%;
+    }
+
     body {
         cursor: auto;
     }

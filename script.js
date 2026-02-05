@@ -590,19 +590,22 @@ const MusicPlayer = {
 
         this.btn.addEventListener('click', () => this.toggle());
 
-        // Try to autoplay on first user interaction
+        // Auto-play music by default — start on first user interaction (browser requirement)
         const startOnInteraction = () => {
-            if (!this.isPlaying) {
-                this.play();
-            }
+            this.play();
             document.removeEventListener('click', startOnInteraction);
             document.removeEventListener('scroll', startOnInteraction);
             document.removeEventListener('touchstart', startOnInteraction);
+            document.removeEventListener('keydown', startOnInteraction);
         };
 
         document.addEventListener('click', startOnInteraction);
         document.addEventListener('scroll', startOnInteraction);
         document.addEventListener('touchstart', startOnInteraction);
+        document.addEventListener('keydown', startOnInteraction);
+
+        // Also try immediate autoplay
+        this.play();
     },
 
     toggle() {
