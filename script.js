@@ -15,11 +15,27 @@ document.addEventListener('DOMContentLoaded', () => {
     Parallax.init();
     Forms.init();
 
-    // Slow down hero video playback
+    // Hero video: slow playback, replay 3 times per loop cycle
     const heroVideo = document.getElementById('heroVideo');
     if (heroVideo) {
         heroVideo.playbackRate = 0.5;
+        heroVideo.removeAttribute('loop');
+        let playCount = 0;
+        heroVideo.addEventListener('ended', () => {
+            playCount++;
+            if (playCount < 3) {
+                heroVideo.currentTime = 0;
+                heroVideo.play();
+            } else {
+                playCount = 0;
+                heroVideo.currentTime = 0;
+                heroVideo.play();
+            }
+        });
     }
+
+    // Music toggle
+    MusicPlayer.init();
 });
 
 /* ============================================
@@ -569,3 +585,58 @@ const RevealOnScroll = {
 };
 
 RevealOnScroll.init();
+
+/* ============================================
+   MUSIC PLAYER MODULE
+   ============================================ */
+const MusicPlayer = {
+    audio: null,
+    btn: null,
+    isPlaying: false,
+
+    init() {
+        this.audio = document.getElementById('bgMusic');
+        this.btn = document.getElementById('musicToggle');
+        if (!this.audio || !this.btn) return;
+
+        this.audio.volume = 0.4;
+
+        this.btn.addEventListener('click', () => this.toggle());
+
+        // Try to autoplay on first user interaction
+        const startOnInteraction = () => {
+            if (!this.isPlaying) {
+                this.play();
+            }
+            document.removeEventListener('click', startOnInteraction);
+            document.removeEventListener('scroll', startOnInteraction);
+            document.removeEventListener('touchstart', startOnInteraction);
+        };
+
+        document.addEventListener('click', startOnInteraction);
+        document.addEventListener('scroll', startOnInteraction);
+        document.addEventListener('touchstart', startOnInteraction);
+    },
+
+    toggle() {
+        this.isPlaying ? this.pause() : this.play();
+    },
+
+    play() {
+        const playPromise = this.audio.play();
+        if (playPromise !== undefined) {
+            playPromise.then(() => {
+                this.isPlaying = true;
+                this.btn.classList.add('playing');
+            }).catch(() => {
+                // Autoplay blocked, user needs to click
+            });
+        }
+    },
+
+    pause() {
+        this.audio.pause();
+        this.isPlaying = false;
+        this.btn.classList.remove('playing');
+    }
+};
