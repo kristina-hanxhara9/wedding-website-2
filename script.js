@@ -15,24 +15,11 @@ document.addEventListener('DOMContentLoaded', () => {
     Parallax.init();
     Forms.init();
 
-    // Hero video: slow playback, replay 3 times per loop cycle
-    const heroVideo = document.getElementById('heroVideo');
-    if (heroVideo) {
-        heroVideo.playbackRate = 0.5;
-        heroVideo.removeAttribute('loop');
-        let playCount = 0;
-        heroVideo.addEventListener('ended', () => {
-            playCount++;
-            if (playCount < 3) {
-                heroVideo.currentTime = 0;
-                heroVideo.play();
-            } else {
-                playCount = 0;
-                heroVideo.currentTime = 0;
-                heroVideo.play();
-            }
-        });
-    }
+    // Hero videos: slow playback for all 3 side-by-side copies
+    const heroVideos = document.querySelectorAll('.hero-vid');
+    heroVideos.forEach(vid => {
+        vid.playbackRate = 0.5;
+    });
 
     // Music toggle
     MusicPlayer.init();
