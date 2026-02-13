@@ -2105,6 +2105,7 @@ img {
 
     .hero-vid:first-child {
         width: 100%;
+        object-fit: cover;
     }
 
     body {
@@ -2112,7 +2113,42 @@ img {
     }
 
     .custom-cursor {
-        display: none;
+        display: none !important;
+    }
+
+    .hero-section {
+        min-height: 100svh;
+        min-height: -webkit-fill-available;
+    }
+
+    /* Improve tap targets */
+    .nav-btn,
+    .btn-primary,
+    .btn-submit,
+    .whatsapp-link,
+    .gallery-item {
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    /* Disable hover effects on touch */
+    .detail-card:hover::before {
+        opacity: 0.3;
+        border-color: var(--color-brown-light);
+        background: transparent;
+    }
+
+    .detail-card:hover {
+        transform: none;
+    }
+
+    .detail-card:active::before {
+        opacity: 1;
+        border-color: var(--color-accent);
+        background: rgba(201, 162, 39, 0.05);
+    }
+
+    .detail-card:active {
+        transform: translateY(-4px);
     }
 
     .hero-label {
@@ -2157,6 +2193,7 @@ img {
 
     .footer-names {
         font-size: 1.8rem;
+        flex-wrap: wrap;
     }
 
     /* Location section mobile */
@@ -2203,6 +2240,43 @@ img {
 
     .nav-overlay-content {
         gap: 12px;
+        padding: 20px;
+    }
+
+    /* Floating buttons mobile */
+    .music-float {
+        bottom: 20px;
+        left: 20px;
+        width: 44px;
+        height: 44px;
+    }
+
+    .music-float svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    .whatsapp-float {
+        bottom: 20px;
+        right: 20px;
+        width: 52px;
+        height: 52px;
+    }
+
+    .whatsapp-float svg {
+        width: 26px;
+        height: 26px;
+    }
+
+    /* Footer WhatsApp link mobile */
+    .whatsapp-link {
+        padding: 12px 20px;
+        font-size: 0.65rem;
+    }
+
+    .whatsapp-link svg {
+        width: 18px;
+        height: 18px;
     }
 }
 
@@ -2349,14 +2423,22 @@ img {
     /* Intro section mobile */
     .intro-section {
         padding: 80px 20px;
+        min-height: auto;
     }
 
     .intro-text {
-        font-size: 1.8rem;
+        font-size: 1.6rem;
+        line-height: 1.4;
+    }
+
+    .intro-quote {
+        margin-top: 40px;
+        padding-left: 20px;
     }
 
     .intro-quote blockquote {
-        font-size: 1.1rem;
+        font-size: 1rem;
+        line-height: 1.7;
     }
 
     /* Venue section mobile */
@@ -2370,10 +2452,26 @@ img {
 
     .venue-description {
         font-size: 1rem;
+        line-height: 1.7;
     }
 
     .venue-image-stack {
-        height: 400px;
+        height: 350px;
+    }
+
+    .venue-img.img-1 {
+        width: 80%;
+        height: 55%;
+    }
+
+    .venue-img.img-2 {
+        width: 70%;
+        height: 50%;
+    }
+
+    .feature {
+        padding: 14px 0;
+        font-size: 0.95rem;
     }
 
     /* Schedule section mobile */
@@ -2391,6 +2489,10 @@ img {
 
     .timeline::before {
         left: 10px;
+    }
+
+    .timeline-item {
+        padding: 30px 0;
     }
 
     .timeline-item::before {
@@ -2420,6 +2522,10 @@ img {
         margin-bottom: 50px;
     }
 
+    .gallery-header .large-title {
+        font-size: 2rem;
+    }
+
     /* RSVP section mobile */
     .rsvp-section {
         padding: 80px 20px;
@@ -2436,7 +2542,7 @@ img {
     .form-group input,
     .form-group select,
     .form-group textarea {
-        font-size: 1rem;
+        font-size: 16px; /* Prevents iOS zoom on focus */
         padding: 12px 0;
     }
 
@@ -2485,6 +2591,80 @@ img {
     .tracking-wide {
         font-size: 1.5rem;
         letter-spacing: 0.15em;
+    }
+
+    /* Details section cards mobile */
+    .details-section {
+        padding: 80px 20px;
+    }
+
+    .details-header {
+        margin-bottom: 50px;
+    }
+
+    .detail-card::before {
+        border-radius: 60px;
+    }
+
+    /* Floating buttons mobile */
+    .music-float {
+        bottom: 15px;
+        left: 15px;
+        width: 42px;
+        height: 42px;
+    }
+
+    .whatsapp-float {
+        bottom: 15px;
+        right: 15px;
+        width: 48px;
+        height: 48px;
+    }
+
+    .whatsapp-float svg {
+        width: 24px;
+        height: 24px;
+    }
+}
+
+/* Extra small devices */
+@media (max-width: 360px) {
+    .hero-title .line-1 .word,
+    .hero-title .line-3 .word {
+        font-size: 1.9rem;
+    }
+
+    .hero-title .line-2 .word {
+        font-size: 1rem;
+    }
+
+    .intro-text {
+        font-size: 1.4rem;
+    }
+
+    .large-title {
+        font-size: 1.5rem;
+    }
+
+    .card-main {
+        font-size: 1.3rem;
+    }
+
+    .venue-title,
+    .location-title {
+        font-size: 1.8rem;
+    }
+
+    .schedule-main-title {
+        font-size: 1.9rem;
+    }
+
+    .rsvp-title {
+        font-size: 1.5rem;
+    }
+
+    .footer-names {
+        font-size: 1.3rem;
     }
 }
 
