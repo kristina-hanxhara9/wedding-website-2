@@ -33,6 +33,272 @@
     --ease-magnetic: cubic-bezier(0.23, 1, 0.32, 1);
 }
 
+/* ============================================
+   VIDEO INTRO SPLASH SCREEN
+   ============================================ */
+
+.video-intro {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 99999;
+    background: var(--color-brown-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 1s var(--ease-out-expo), visibility 1s;
+}
+
+.video-intro.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.video-intro.playing .intro-content-overlay {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.video-intro.playing .intro-skip-btn {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.intro-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.4;
+    transition: opacity 0.8s var(--ease-smooth);
+}
+
+.video-intro.playing .intro-video {
+    opacity: 1;
+}
+
+.intro-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        to bottom,
+        rgba(26, 47, 39, 0.5) 0%,
+        rgba(26, 47, 39, 0.7) 100%
+    );
+    z-index: 1;
+    transition: opacity 0.8s var(--ease-smooth);
+}
+
+.video-intro.playing .intro-overlay {
+    opacity: 0.3;
+}
+
+.intro-content-overlay {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    color: var(--color-text-light);
+    transition: opacity 0.6s var(--ease-smooth);
+}
+
+.intro-names {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.intro-name {
+    font-family: var(--font-display);
+    font-size: 5rem;
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: introFadeIn 1s var(--ease-out-expo) forwards;
+}
+
+.intro-name.italic {
+    font-style: italic;
+}
+
+.intro-name:nth-child(1) {
+    animation-delay: 0.3s;
+}
+
+.intro-name:nth-child(3) {
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    animation-delay: 0.6s;
+}
+
+.intro-amp {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 300;
+    color: var(--color-accent-light);
+    opacity: 0;
+    animation: introFadeIn 1s var(--ease-out-expo) 0.45s forwards;
+}
+
+.intro-date {
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    font-weight: 400;
+    letter-spacing: 0.4em;
+    color: var(--color-text-muted-light);
+    margin-bottom: 50px;
+    opacity: 0;
+    animation: introFadeIn 1s var(--ease-out-expo) 0.8s forwards;
+}
+
+.intro-play-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    padding: 18px 40px;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 50px;
+    color: var(--color-text-light);
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.4s var(--ease-smooth);
+    opacity: 0;
+    animation: introFadeIn 1s var(--ease-out-expo) 1s forwards;
+}
+
+.intro-play-btn:hover {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    transform: scale(1.05);
+}
+
+.intro-play-btn .play-icon {
+    width: 18px;
+    height: 18px;
+}
+
+.intro-skip-btn {
+    position: absolute;
+    bottom: 40px;
+    right: 40px;
+    z-index: 3;
+    background: transparent;
+    border: none;
+    color: var(--color-text-muted-light);
+    font-family: var(--font-body);
+    font-size: 0.7rem;
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    padding: 10px 20px;
+    transition: all 0.3s var(--ease-smooth);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.intro-skip-btn:hover {
+    color: var(--color-text-light);
+}
+
+@keyframes introFadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Hide main content when intro is active */
+body.intro-active .main-nav,
+body.intro-active .vertical-marquee,
+body.intro-active .smooth-scroll-wrapper,
+body.intro-active .loader,
+body.intro-active .music-float,
+body.intro-active .whatsapp-float {
+    opacity: 0;
+    pointer-events: none;
+}
+
+body.intro-active {
+    overflow: hidden;
+}
+
+/* Video intro responsive */
+@media (max-width: 768px) {
+    .intro-name {
+        font-size: 3rem;
+    }
+
+    .intro-amp {
+        font-size: 1.5rem;
+    }
+
+    .intro-date {
+        font-size: 0.75rem;
+        letter-spacing: 0.3em;
+        margin-bottom: 40px;
+    }
+
+    .intro-play-btn {
+        padding: 15px 30px;
+        font-size: 0.65rem;
+        gap: 12px;
+    }
+
+    .intro-play-btn .play-icon {
+        width: 16px;
+        height: 16px;
+    }
+
+    .intro-skip-btn {
+        bottom: 30px;
+        right: 30px;
+        font-size: 0.6rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .intro-name {
+        font-size: 2.2rem;
+    }
+
+    .intro-amp {
+        font-size: 1.2rem;
+    }
+
+    .intro-date {
+        font-size: 0.65rem;
+        letter-spacing: 0.25em;
+        margin-bottom: 35px;
+    }
+
+    .intro-play-btn {
+        padding: 14px 25px;
+        font-size: 0.6rem;
+    }
+
+    .intro-skip-btn {
+        bottom: 20px;
+        right: 20px;
+    }
+}
+
 /* Reset & Base */
 *, *::before, *::after {
     margin: 0;

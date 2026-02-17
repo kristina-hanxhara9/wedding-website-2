@@ -5,25 +5,117 @@
 
 // Wait for DOM to be ready
 document.addEventListener('DOMContentLoaded', () => {
-    // Initialize all modules
-    Loader.init();
-    SmoothScroll.init();
-    CustomCursor.init();
-    MagneticButtons.init();
-    Navigation.init();
-    Animations.init();
-    Parallax.init();
-    Forms.init();
-
-    // Hero videos: slow playback for all 3 side-by-side copies
-    const heroVideos = document.querySelectorAll('.hero-vid');
-    heroVideos.forEach(vid => {
-        vid.playbackRate = 0.5;
-    });
-
-    // Music toggle
-    MusicPlayer.init();
+    // Initialize video intro first
+    VideoIntro.init();
 });
+
+/* ============================================
+   VIDEO INTRO MODULE
+   ============================================ */
+const VideoIntro = {
+    intro: null,
+    video: null,
+    playBtn: null,
+    skipBtn: null,
+    contentOverlay: null,
+
+    init() {
+        this.intro = document.getElementById('videoIntro');
+        this.video = document.getElementById('introVideo');
+        this.playBtn = document.getElementById('introPlayBtn');
+        this.skipBtn = document.getElementById('introSkipBtn');
+        this.contentOverlay = document.getElementById('introContentOverlay');
+
+        if (!this.intro || !this.video) {
+            this.startMainSite();
+            return;
+        }
+
+        // Check if user has already seen the intro (session storage)
+        if (sessionStorage.getItem('introWatched')) {
+            this.skipIntro();
+            return;
+        }
+
+        // Set video playback rate
+        this.video.playbackRate = 0.7;
+
+        // Play button click
+        this.playBtn.addEventListener('click', () => this.playVideo());
+
+        // Skip button click
+        this.skipBtn.addEventListener('click', () => this.skipIntro());
+
+        // Video ended
+        this.video.addEventListener('ended', () => this.onVideoEnd());
+
+        // Allow clicking video to skip while playing
+        this.video.addEventListener('click', () => {
+            if (this.intro.classList.contains('playing')) {
+                this.skipIntro();
+            }
+        });
+    },
+
+    playVideo() {
+        this.intro.classList.add('playing');
+        this.video.muted = false;
+        this.video.volume = 0.6;
+        this.video.play();
+    },
+
+    onVideoEnd() {
+        this.transitionToSite();
+    },
+
+    skipIntro() {
+        sessionStorage.setItem('introWatched', 'true');
+        this.transitionToSite();
+    },
+
+    transitionToSite() {
+        // Fade out intro
+        this.intro.classList.add('hidden');
+
+        // Remove intro-active class from body
+        document.body.classList.remove('intro-active');
+
+        // Start main site initialization
+        setTimeout(() => {
+            this.startMainSite();
+            // Remove intro from DOM after transition
+            setTimeout(() => {
+                if (this.intro.parentNode) {
+                    this.intro.parentNode.removeChild(this.intro);
+                }
+            }, 1000);
+        }, 300);
+    },
+
+    startMainSite() {
+        // Remove intro-active if still present
+        document.body.classList.remove('intro-active');
+
+        // Initialize all main modules
+        Loader.init();
+        SmoothScroll.init();
+        CustomCursor.init();
+        MagneticButtons.init();
+        Navigation.init();
+        Animations.init();
+        Parallax.init();
+        Forms.init();
+
+        // Hero videos: slow playback for all 3 side-by-side copies
+        const heroVideos = document.querySelectorAll('.hero-vid');
+        heroVideos.forEach(vid => {
+            vid.playbackRate = 0.5;
+        });
+
+        // Music toggle
+        MusicPlayer.init();
+    }
+};
 
 /* ============================================
    LOADER MODULE
