@@ -112,18 +112,30 @@ const Loader = {
 
         body.classList.add('loading');
 
-        // Simulate loading time for assets
-        window.addEventListener('load', () => {
+        // Check if page already loaded (after video intro)
+        if (document.readyState === 'complete') {
+            // Page already loaded, show loader briefly then hide
             setTimeout(() => {
                 loader.classList.add('hidden');
                 body.classList.remove('loading');
 
-                // Trigger hero animations after loader hides
                 setTimeout(() => {
                     this.animateHero();
                 }, 300);
-            }, 2500);
-        });
+            }, 1500);
+        } else {
+            // Page still loading, wait for load event
+            window.addEventListener('load', () => {
+                setTimeout(() => {
+                    loader.classList.add('hidden');
+                    body.classList.remove('loading');
+
+                    setTimeout(() => {
+                        this.animateHero();
+                    }, 300);
+                }, 2500);
+            });
+        }
     },
 
     animateHero() {
