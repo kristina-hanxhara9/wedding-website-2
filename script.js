@@ -15,16 +15,12 @@ document.addEventListener('DOMContentLoaded', () => {
 const VideoIntro = {
     intro: null,
     video: null,
-    playBtn: null,
     skipBtn: null,
-    contentOverlay: null,
 
     init() {
         this.intro = document.getElementById('videoIntro');
         this.video = document.getElementById('introVideo');
-        this.playBtn = document.getElementById('introPlayBtn');
         this.skipBtn = document.getElementById('introSkipBtn');
-        this.contentOverlay = document.getElementById('introContentOverlay');
 
         if (!this.intro || !this.video) {
             this.startMainSite();
@@ -37,31 +33,20 @@ const VideoIntro = {
             return;
         }
 
-        // Set video playback rate
-        this.video.playbackRate = 0.7;
-
-        // Play button click
-        this.playBtn.addEventListener('click', () => this.playVideo());
-
         // Skip button click
         this.skipBtn.addEventListener('click', () => this.skipIntro());
 
         // Video ended
         this.video.addEventListener('ended', () => this.onVideoEnd());
 
-        // Allow clicking video to skip while playing
-        this.video.addEventListener('click', () => {
-            if (this.intro.classList.contains('playing')) {
-                this.skipIntro();
-            }
-        });
-    },
+        // Allow clicking video to skip
+        this.video.addEventListener('click', () => this.skipIntro());
 
-    playVideo() {
-        this.intro.classList.add('playing');
-        this.video.muted = false;
-        this.video.volume = 0.6;
-        this.video.play();
+        // Auto-play video (muted for browser compatibility)
+        this.video.play().catch(() => {
+            // If autoplay fails, skip intro
+            this.skipIntro();
+        });
     },
 
     onVideoEnd() {
